@@ -15,74 +15,75 @@ export default function Navbar() {
     { title: "Folk Art", href: "#folk-art" },
   ];
 
-const rightLinks = [
-  { title: "Contemporary", href: "#contemporary" },
-  { title: "Academic", href: "#academic" },
-  { title: "Exhibitions", href: "#exhibitions" },    // ← comma है?
-  { title: "Publications", href: "#publications" },
-  { title: "Awards", href: "#awards" },
-];
+  const rightLinks = [
+    { title: "Contemporary", href: "#contemporary" },
+    { title: "Academic", href: "#academic" },
+    { title: "Exhibitions", href: "#exhibitions" },
+    { title: "Publications", href: "#publications" },
+    { title: "Awards", href: "#awards" },
+    { gallery: "Gallery", href: "#gallery" },
+  ];
 
   return (
-    <nav className="bg-zinc-900 text-amber-600 shadow-lg">
+    <nav className="bg-[#006680] text-white">
       <div className="max-w-7xl mx-auto px-4">
 
-        {/* Name */}
-        <div className="text-center py-6 border-b border-amber-600/30">
-          <h1 className="text-3xl md:text-4xl font-extrabold font-serif mb-1">
-            DR. UTTAMA DIXIT
-          </h1>
-          <p className="text-lg italic font-serif">
-            Artist | Educator | Researcher
-          </p>
+        {/* HEADER ROW */}
+        <div className="flex flex-col lg:block border-b border-amber-600/30">
+
+          {/* Line 1: Name */}
+          <div className="text-center py-4">
+            <h1 className="text-2xl md:text-4xl font-extrabold font-serif">
+              Dr. Uttama Dixit
+            </h1>
+            <p className="text-sm md:text-lg italic font-serif">
+              Artist | Educator | Researcher
+            </p>
+          </div>
+
+          {/* Line 2: Mobile Hamburger */}
+          <div className="lg:hidden flex justify-end pb-3">
+            <button
+              onClick={() => setIsOpen((prev) => !prev)}
+              className="p-2 rounded hover:bg-white/10"
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
+
         </div>
 
         {/* DESKTOP MENU */}
         <div className="hidden lg:flex items-center justify-center py-4">
-
-          {/* Left */}
           <div className="flex gap-10">
             {leftLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="hover:text-amber-400 transition font-medium whitespace-nowrap"
+                className="hover:text-rose-600 transition font-medium"
               >
                 {link.title}
               </Link>
             ))}
           </div>
 
-          {/* Spacer */}
           <div className="w-10" />
 
-          {/* Right */}
           <div className="flex gap-10">
             {rightLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="hover:text-amber-400 transition font-medium whitespace-nowrap"
+                className="hover:text-pink-600 transition font-medium"
               >
                 {link.title}
               </Link>
             ))}
           </div>
-
         </div>
 
-        {/* MOBILE BUTTON */}
-        <div className="lg:hidden flex justify-end py-4">
-          <button
-            onClick={() => setIsOpen((prev) => !prev)}
-            className="p-2 rounded hover:bg-white/10"
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-
-        {/* MOBILE MENU */}
+        {/* MOBILE MENU (NO EXTRA LINE) */}
         {isOpen && (
           <div className="lg:hidden pb-4">
             <div className="flex flex-col gap-2">

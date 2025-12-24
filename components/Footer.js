@@ -5,7 +5,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-[#006680] text-white">
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -22,10 +22,10 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-bold text-lg mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/gallery" className="hover:text-amber-400 transition">Gallery</Link></li>
-              <li><Link href="/about" className="hover:text-amber-400 transition">About</Link></li>
-              <li><Link href="/workshops" className="hover:text-amber-400 transition">Workshops</Link></li>
-              <li><Link href="/contact" className="hover:text-amber-400 transition">Contact</Link></li>
+              <li><Link href="/gallery" className="hover:text-pink-600 transition">Gallery</Link></li>
+              <li><Link href="/about" className="hover:text-pink-600 transition">About</Link></li>
+              <li><Link href="/workshops" className="hover:text-pink-600 transition">Workshops</Link></li>
+              <li><Link href="/contact" className="hover:text-pink-600 transition">Contact</Link></li>
             </ul>
           </div>
 
