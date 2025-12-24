@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ArtistNavbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,17 +34,17 @@ export const metadata = {
     "contemporary Indian painting",
     "folk art researcher"
   ].join(", "),
-  authors: [{ name: "Dr. Uttama Dixit", url: "https://artistuttamadixit.online" }],
+  authors: [{ name: "Dr. Uttama Dixit", url: "https://www.artistuttamadixit.online" }],
   creator: "Dr. Uttama Dixit",
   publisher: "Dr. Uttama Dixit",
-  metadataBase: new URL('https://artistuttamadixit.online'),
+  metadataBase: new URL('https://www.artistuttamadixit.online'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: "Dr. Uttama Dixit - Renowned Indian Artist, Educator & Researcher",
     description: "Distinguished artist & Dean at Faculty of Visual Arts, BHU. Expert in Folk Art & Contemporary Painting. 45+ exhibitions, 12 PhDs awarded.",
-    url: 'https://artistuttamadixit.online',
+    url: 'https://www.artistuttamadixit.online',
     siteName: 'Dr. Uttama Dixit - Artist Portfolio',
     images: [
       {
@@ -110,7 +111,7 @@ export default function RootLayout({ children }) {
                   "addressCountry": "IN"
                 }
               },
-              "url": "https://artistuttamadixit.online",
+              "url": "https://www.artistuttamadixit.online",
               "email": "uttama.dixit@bhu.ac.in",
               "telephone": "+919793331447",
               "address": {
@@ -166,7 +167,7 @@ export default function RootLayout({ children }) {
                   "author": "Dr. Uttama Dixit"
                 }
               ],
-              "image": "https://artistuttamadixit.online/uttama-dixit-og.jpg",
+              "image": "https://www.artistuttamadixit.online/uttama-dixit-og.jpg",
               "sameAs": []
             })
           }}
@@ -184,7 +185,7 @@ export default function RootLayout({ children }) {
                   "@type": "ListItem",
                   "position": 1,
                   "name": "Home",
-                  "item": "https://artistuttamadixit.online"
+                  "item": "https://www.artistuttamadixit.online"
                 }
               ]
             })
@@ -192,6 +193,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <GoogleAnalytics />
         <ArtistNavbar />
         <main className="min-h-screen">
           {children}

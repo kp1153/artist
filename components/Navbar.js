@@ -37,7 +37,7 @@ export default function Navbar() {
             <h1 className="text-2xl md:text-4xl font-extrabold font-serif">
               Dr. Uttama Dixit
             </h1>
-            <p className="text-sm md:text-lg italic font-serif">
+          <p className="text-sm md:text-lg italic font-serif mt-2">
               Artist | Educator | Researcher
             </p>
           </div>
