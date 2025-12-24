@@ -11,7 +11,8 @@ export default function Navbar() {
   ];
   const rightLinks = [
     { title: "Contemporary", href: "#contemporary" },
-    { title: "Academic", href: "#academic" },
+    { title: "Academic", href: "#academic" },   
+{ title: "Exhibitions", href: "#exhibitions" }
     { title: "Publications", href: "#publications" },
     { title: "Awards", href: "#awards" },
   ];
