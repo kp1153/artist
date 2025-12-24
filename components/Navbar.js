@@ -21,7 +21,8 @@ export default function Navbar() {
     { title: "Exhibitions", href: "#exhibitions" },
     { title: "Publications", href: "#publications" },
     { title: "Awards", href: "#awards" },
-    { gallery: "Gallery", href: "#gallery" },
+   
+    { title: "Gallery", href: "#gallery" },
   ];
 
   return (
