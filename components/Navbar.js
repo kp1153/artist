@@ -1,24 +1,32 @@
+// File: components/Navbar.js
+
 "use client";
+
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+
   const leftLinks = [
     { title: "Home", href: "#home" },
     { title: "About", href: "#about" },
     { title: "Folk Art", href: "#folk-art" },
   ];
-  const rightLinks = [
-    { title: "Contemporary", href: "#contemporary" },
-    { title: "Academic", href: "#academic" },   
-{ title: "Exhibitions", href: "#exhibitions" }
-    { title: "Publications", href: "#publications" },
-    { title: "Awards", href: "#awards" },
-  ];
+
+const rightLinks = [
+  { title: "Contemporary", href: "#contemporary" },
+  { title: "Academic", href: "#academic" },
+  { title: "Exhibitions", href: "#exhibitions" },    // ← comma है?
+  { title: "Publications", href: "#publications" },
+  { title: "Awards", href: "#awards" },
+];
+
   return (
     <nav className="bg-zinc-900 text-amber-600 shadow-lg">
       <div className="max-w-7xl mx-auto px-4">
+
         {/* Name */}
         <div className="text-center py-6 border-b border-amber-600/30">
           <h1 className="text-3xl md:text-4xl font-extrabold font-serif mb-1">
@@ -28,8 +36,10 @@ export default function Navbar() {
             Artist | Educator | Researcher
           </p>
         </div>
-        {/* DESKTOP MENU — equal spacing */}
+
+        {/* DESKTOP MENU */}
         <div className="hidden lg:flex items-center justify-center py-4">
+
           {/* Left */}
           <div className="flex gap-10">
             {leftLinks.map((link) => (
@@ -42,8 +52,10 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
-          {/* Equal space between menus */}
-          <div className="w-10"></div>
+
+          {/* Spacer */}
+          <div className="w-10" />
+
           {/* Right */}
           <div className="flex gap-10">
             {rightLinks.map((link) => (
@@ -56,17 +68,20 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
+
         </div>
+
         {/* MOBILE BUTTON */}
         <div className="lg:hidden flex justify-end py-4">
           <button
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsOpen((prev) => !prev)}
             className="p-2 rounded hover:bg-white/10"
             aria-label="Toggle menu"
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
+
         {/* MOBILE MENU */}
         {isOpen && (
           <div className="lg:hidden pb-4">
@@ -84,6 +99,7 @@ export default function Navbar() {
             </div>
           </div>
         )}
+
       </div>
     </nav>
   );
