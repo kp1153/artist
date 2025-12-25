@@ -1,5 +1,4 @@
-// sanity/schemaTypes/artwork.js
-export default {
+const artwork = {
   name: 'artwork',
   title: 'Artwork',
   type: 'document',
@@ -111,3 +110,4 @@ export default {
     }
   ]
 }
+export default artwork

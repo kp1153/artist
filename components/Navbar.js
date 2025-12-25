@@ -1,5 +1,3 @@
-// File: components/Navbar.js
-
 "use client";
 
 import Link from "next/link";
@@ -9,86 +7,63 @@ import { useState } from "react";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const leftLinks = [
-    { title: "Home", href: "#home" },
-    { title: "About", href: "#about" },
-    { title: "Folk Art", href: "#folk-art" },
-  ];
-
-  const rightLinks = [
-    { title: "Contemporary", href: "#contemporary" },
-    { title: "Academic", href: "#academic" },
-    { title: "Exhibitions", href: "#exhibitions" },
-    { title: "Publications", href: "#publications" },
-    { title: "Awards", href: "#awards" },
-   
-    { title: "Gallery", href: "#gallery" },
+  // Dynamic categories - can be fetched from Sanity later
+  const navLinks = [
+    { title: "Home", href: "/" },
+    { title: "Folk Art", href: "/folk-art" },
+    { title: "Contemporary", href: "/contemporary" },
+    { title: "Gallery", href: "/gallery" },
+    { title: "Exhibitions", href: "/exhibitions" },
+    { title: "Publications", href: "/publications" },
+    { title: "Blog", href: "/blog" },
   ];
 
   return (
     <nav className="bg-[#006680] text-white">
       <div className="max-w-7xl mx-auto px-4">
-
-        {/* HEADER ROW */}
+        {/* Header */}
         <div className="flex flex-col lg:block border-b border-amber-600/30">
-
-          {/* Line 1: Name */}
           <div className="text-center py-4">
-            <h1 className="text-2xl md:text-4xl font-extrabold font-serif">
-              Dr. Uttama Dixit
-            </h1>
-          <p className="text-sm md:text-lg italic font-serif mt-2">
-              Artist | Educator | Researcher
-            </p>
+            <Link href="/">
+              <h1 className="text-2xl md:text-4xl font-extrabold font-serif cursor-pointer hover:text-amber-300 transition">
+                Dr. Uttama Dixit
+              </h1>
+              <p className="text-sm md:text-lg italic font-serif mt-2">
+                Artist | Educator | Researcher
+              </p>
+            </Link>
           </div>
 
-          {/* Line 2: Mobile Hamburger */}
+          {/* Mobile Hamburger */}
           <div className="lg:hidden flex justify-end pb-3">
             <button
-              onClick={() => setIsOpen((prev) => !prev)}
+              onClick={() => setIsOpen(!isOpen)}
               className="p-2 rounded hover:bg-white/10"
               aria-label="Toggle menu"
             >
               {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
-
         </div>
 
-        {/* DESKTOP MENU */}
-        <div className="hidden lg:flex items-center justify-center py-4">
-          <div className="flex gap-10">
-            {leftLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="hover:text-rose-600 transition font-medium"
-              >
-                {link.title}
-              </Link>
-            ))}
-          </div>
-
-          <div className="w-10" />
-
-          <div className="flex gap-10">
-            {rightLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="hover:text-pink-600 transition font-medium"
-              >
-                {link.title}
-              </Link>
-            ))}
-          </div>
+        {/* Desktop Menu */}
+        <div className="hidden lg:flex items-center justify-center gap-8 py-4">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="hover:text-amber-300 transition font-medium text-lg"
+            >
+              {link.title}
+            </Link>
+          ))}
         </div>
 
-        {/* MOBILE MENU (NO EXTRA LINE) */}
+        {/* Mobile Menu */}
         {isOpen && (
           <div className="lg:hidden pb-4">
             <div className="flex flex-col gap-2">
-              {[...leftLinks, ...rightLinks].map((link) => (
+              {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -101,7 +76,6 @@ export default function Navbar() {
             </div>
           </div>
         )}
-
       </div>
     </nav>
   );

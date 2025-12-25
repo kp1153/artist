@@ -1,5 +1,4 @@
-// sanity/schemaTypes/exhibition.js
-export default {
+const exhibition = {
   name: 'exhibition',
   title: 'Exhibition',
   type: 'document',
@@ -16,7 +15,8 @@ export default {
       type: 'slug',
       options: {
         source: 'title'
-      }
+      },
+      validation: Rule => Rule.required()
     },
     {
       name: 'type',
@@ -37,12 +37,25 @@ export default {
     {
       name: 'startDate',
       title: 'Start Date',
+      type: 'date',
+      validation: Rule => Rule.required()
+    },
+    {
+      name: 'endDate',
+      title: 'End Date',
       type: 'date'
     },
     {
       name: 'description',
       title: 'Description',
       type: 'text'
+    },
+    {
+      name: 'images',
+      title: 'Exhibition Images',
+      type: 'array',
+      of: [{type: 'image', options: {hotspot: true}}]
     }
   ]
 }
+export default exhibition
