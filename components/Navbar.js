@@ -13,8 +13,7 @@ export default function Navbar() {
     { title: "Folk Art", href: "/folk-art" },
     { title: "Contemporary", href: "/contemporary" },
     { title: "Gallery", href: "/gallery" },
-    { title: "Exhibitions", href: "/exhibitions" },
-    { title: "Publications", href: "/publications" },
+    { title: "Exhibitions", href: "/exhibitions" },   
     { title: "Blog", href: "/blog" },
   ];
 
