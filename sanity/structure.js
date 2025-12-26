@@ -2,7 +2,8 @@ export const structure = (S) =>
   S.list()
     .title('Dr. Uttama Dixit Gallery')
     .items([
-      S.documentTypeListItem('post').title('Artworks'),
+      S.documentTypeListItem('artwork').title('Artworks'),
+      S.documentTypeListItem('post').title('Blog Posts'),
       S.documentTypeListItem('category').title('Categories'),
       S.documentTypeListItem('exhibition').title('Exhibitions'),
       S.divider(),
@@ -11,6 +12,6 @@ export const structure = (S) =>
         .child(
           S.documentList()
             .title('Available Artworks')
-            .filter('_type == "post" && availabilityStatus == "available"')
+            .filter('_type == "artwork" && availabilityStatus == "available"')
         ),
     ])
