@@ -53,7 +53,7 @@ export default async function CategoryPage({ params }) {
   }
 
   const items = await client.fetch(
-    `*[_type == "post" && category == $category] | order(date desc){
+    `*[_type == "artwork" && category == $category] | order(date desc){
       slug,
 title,
 createdDate,

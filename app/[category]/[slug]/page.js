@@ -27,7 +27,7 @@ export async function generateMetadata({ params }) {
   const { category, slug } = await params;
 
   const item = await client.fetch(
-    `*[_type == "post" && slug.current == $slug][0]{ title, description }`,
+    `*[_type == "artwork" && slug.current == $slug][0]{ title, description }`,
     { slug }
   );
 
@@ -53,7 +53,7 @@ export default async function DetailPage({ params }) {
   }
 
   const item = await client.fetch(
-    `*[_type == "post" && slug.current == $slug][0]{
+    `*[_type == "artwork" && slug.current == $slug][0]{
       title,
 createdDate,
 description,

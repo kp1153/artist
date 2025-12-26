@@ -17,7 +17,7 @@ export const metadata = {
 
 export default async function HomePage() {
   const posts = await client.fetch(
-    `*[_type == "post"] | order(_createdAt desc)[0...12]{
+    `*[_type == "artwork"] | order(_createdAt desc)[0...12]{
       slug,
 title,
 category,

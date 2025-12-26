@@ -3,7 +3,7 @@ import MultiImageInput from './MultiImageInput'
 import { hindiToRoman } from './hindiToRoman'
 
 const artwork = {
-  name: 'post',
+  name: 'artwork',
   title: 'Artwork',
   type: 'document',
   fields: [
