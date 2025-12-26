@@ -1,10 +1,11 @@
-import Link from "next/link";
+ import Link from "next/link";
 import { notFound } from "next/navigation";
+import ViewsCounter from "@/components/ViewsCounter";
 
 const validCategories = ["folk-art", "contemporary", "gallery", "exhibitions", "publications", "blog"];
 
-export default function DetailPage({ params }) {
-  const { category, slug } = params;
+export default async function DetailPage({ params }) {
+  const { category, slug } = await params;
 
   if (!validCategories.includes(category)) {
     notFound();
@@ -32,7 +33,10 @@ export default function DetailPage({ params }) {
             ← Back to {category.replace('-', ' ')}
           </Link>
           <h1 className="text-5xl font-bold">{item.title}</h1>
-          <p className="text-xl mt-2">{item.date}</p>
+          <div className="flex items-center gap-4 mt-2">
+            <p className="text-xl">{item.date}</p>
+            <ViewsCounter slug={slug} />
+          </div>
         </div>
       </section>
 

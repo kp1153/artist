@@ -15,6 +15,7 @@ export default function Navbar() {
     { title: "Gallery", href: "/gallery" },
     { title: "Exhibitions", href: "/exhibitions" },   
     { title: "Blog", href: "/blog" },
+     { title: "Contact", href: "/contact" },
   ];
 
   return (

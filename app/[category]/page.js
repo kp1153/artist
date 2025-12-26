@@ -1,18 +1,24 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { createClient } from "@sanity/client";
+import { Eye } from "lucide-react";
 
-// Valid categories
+const client = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+  useCdn: false,
+  apiVersion: "2023-01-01",
+});
+
 const validCategories = ["folk-art", "contemporary", "gallery", "exhibitions", "publications", "blog"];
 
-export default function CategoryPage({ params }) {
-  const { category } = params;
+export default async function CategoryPage({ params }) {
+  const { category } = await params;
 
-  // Validate category
   if (!validCategories.includes(category)) {
     notFound();
   }
 
-  // Category titles
   const categoryTitles = {
     "folk-art": "Folk Art",
     "contemporary": "Contemporary Art",
@@ -22,13 +28,16 @@ export default function CategoryPage({ params }) {
     "blog": "Blog & Articles"
   };
 
-  // Mock data - Replace with Sanity CMS fetch
-  const items = [
-    { slug: "lotus-series-2024", title: "Lotus Series 2024", image: "/placeholder1.jpg", date: "2024" },
-    { slug: "kashi-heritage", title: "Kashi Heritage Collection", image: "/placeholder2.jpg", date: "2023" },
-    { slug: "abstract-studies", title: "Abstract Studies", image: "/placeholder3.jpg", date: "2023" },
-    { slug: "bhu-annual-exhibition", title: "BHU Annual Exhibition", image: "/placeholder4.jpg", date: "2024" },
-  ];
+  // Sanity से data fetch करें
+  const items = await client.fetch(
+    `*[_type == "post" && category == $category] | order(date desc){
+      slug,
+      title,
+      date,
+      views
+    }`,
+    { category }
+  );
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -45,8 +54,8 @@ export default function CategoryPage({ params }) {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {items.map((item) => (
             <Link 
-              key={item.slug}
-              href={`/${category}/${item.slug}`}
+              key={item.slug.current}
+              href={`/${category}/${item.slug.current}`}
               className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all"
             >
               <div className="h-64 bg-gradient-to-br from-gray-200 to-gray-300 group-hover:from-teal-100 group-hover:to-amber-100 transition-all flex items-center justify-center">
@@ -54,7 +63,13 @@ export default function CategoryPage({ params }) {
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-2 group-hover:text-teal-700 transition">{item.title}</h3>
-                <p className="text-gray-500">{item.date}</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-500">{item.date}</p>
+                  <div className="flex items-center gap-1 text-gray-600 text-sm">
+                    <Eye size={16} />
+                    <span>{item.views || 0}</span>
+                  </div>
+                </div>
               </div>
             </Link>
           ))}

@@ -6,7 +6,7 @@ export default function Footer() {
     { title: "About", href: "/about" },
     { title: "Experience", href: "/experience" },
     { title: "Research", href: "/research" },
-    { title: "Contact", href: "/contact" },
+   
     { title: "Administrative Roles", href: "/administrative" },
     { title: "Research Scholars", href: "/scholars" },
   ];
