@@ -12,26 +12,26 @@ const client = createClient({
 
 export async function POST(request, { params }) {
   try {
-    const { slug } = await params; // ✅ Correct
+    const { slug } = await params;
 
     if (!slug) {
       return NextResponse.json({ error: "Slug required" }, { status: 400 });
     }
 
-    // Post find करें
-    const post = await client.fetch(
-      `*[_type == "post" && slug.current == $slug][0]{ _id, views }`,
+    // artwork या post दोनों को support करो
+    const item = await client.fetch(
+      `*[(_type == "artwork" || _type == "post") && slug.current == $slug][0]{ _id, views }`,
       { slug }
     );
 
-    if (!post) {
-      return NextResponse.json({ error: "Post not found" }, { status: 404 });
+    if (!item) {
+      return NextResponse.json({ error: "Item not found" }, { status: 404 });
     }
 
     // Views increment करें
-    const newViews = (post.views || 0) + 1;
+    const newViews = (item.views || 0) + 1;
 
-    await client.patch(post._id).set({ views: newViews }).commit();
+    await client.patch(item._id).set({ views: newViews }).commit();
 
     return NextResponse.json({
       success: true,
@@ -50,17 +50,17 @@ export async function GET(request, { params }) {
   try {
     const { slug } = await params;
 
-    const post = await client.fetch(
-      `*[_type == "post" && slug.current == $slug][0]{ views }`,
+    const item = await client.fetch(
+      `*[(_type == "artwork" || _type == "post") && slug.current == $slug][0]{ views }`,
       { slug }
     );
 
-    if (!post) {
-      return NextResponse.json({ error: "Post not found" }, { status: 404 });
+    if (!item) {
+      return NextResponse.json({ error: "Item not found" }, { status: 404 });
     }
 
     return NextResponse.json({
-      views: post.views || 0,
+      views: item.views || 0,
     });
   } catch (error) {
     console.error("Error fetching views:", error);

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ViewsCounter from "@/components/ViewsCounter";
 import { createClient } from "@sanity/client";
+import imageUrlBuilder from '@sanity/image-url';
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -9,6 +10,12 @@ const client = createClient({
   useCdn: false,
   apiVersion: "2023-01-01",
 });
+
+// Image URL builder
+const builder = imageUrlBuilder(client);
+function urlFor(source) {
+  return builder.image(source);
+}
 
 const validCategories = [
   "earlier-work",
@@ -23,12 +30,9 @@ const validCategories = [
   "available-for-sale",
 ];
 
-
-// ---------- METADATA ----------
 export async function generateMetadata({ params }) {
   const { category, slug } = await params;
 
-  // ✅ category validation (missing earlier)
   if (!validCategories.includes(category)) {
     return { title: "Not Found" };
   }
@@ -55,8 +59,6 @@ export async function generateMetadata({ params }) {
   };
 }
 
-
-// ---------- PAGE ----------
 export default async function DetailPage({ params }) {
   const { category, slug } = await params;
 
@@ -69,7 +71,12 @@ export default async function DetailPage({ params }) {
       title,
       createdDate,
       description,
-      mainImage,
+      mainImage{
+        asset->{
+          _id,
+          url
+        }
+      },
       availabilityStatus,
       views
     }`,
@@ -79,6 +86,10 @@ export default async function DetailPage({ params }) {
   if (!item) {
     notFound();
   }
+
+  // Generate proper image URL
+  const imageUrl = item.mainImage?.asset?.url || 
+                   (item.mainImage?.asset ? urlFor(item.mainImage).width(800).url() : null);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -103,9 +114,9 @@ export default async function DetailPage({ params }) {
       <section className="max-w-5xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 gap-12">
           <div className="bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg h-96 overflow-hidden">
-            {item.mainImage ? (
+            {imageUrl ? (
               <img
-                src={item.mainImage}
+                src={imageUrl}
                 alt={item.title}
                 className="w-full h-full object-cover"
               />
