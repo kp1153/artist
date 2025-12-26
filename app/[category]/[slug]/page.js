@@ -55,13 +55,11 @@ export default async function DetailPage({ params }) {
   const item = await client.fetch(
     `*[_type == "post" && slug.current == $slug][0]{
       title,
-      date,
-      description,
-      content,
-      medium,
-      dimensions,
-      year,
-      views
+createdDate,
+description,
+mainImage,
+availabilityStatus,
+views
     }`,
     { slug }
   );

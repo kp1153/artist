@@ -3,7 +3,7 @@ import MultiImageInput from './MultiImageInput'
 import { hindiToRoman } from './hindiToRoman'
 
 const artwork = {
-  name: 'artwork',
+  name: 'post',
   title: 'Artwork',
   type: 'document',
   fields: [
@@ -111,10 +111,10 @@ const artwork = {
       validation: Rule => Rule.required()
     },
     {
-      name: 'year',
-      title: 'Year Created',
-      type: 'number',
-      validation: Rule => Rule.required().min(1980).max(new Date().getFullYear())
+      name: 'createdDate',
+      title: 'Date Created',
+      type: 'date',
+      validation: Rule => Rule.required()
     },
     {
       name: 'description',
