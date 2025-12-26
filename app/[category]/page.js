@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { createClient } from "@sanity/client";
 import { Eye } from "lucide-react";
@@ -55,9 +56,10 @@ export default async function CategoryPage({ params }) {
   const items = await client.fetch(
     `*[_type == "artwork" && category == $category] | order(date desc){
       slug,
-title,
-createdDate,
-views
+      title,
+      createdDate,
+      views,
+      mainImage
     }`,
     { category }
   );
@@ -79,13 +81,23 @@ views
               href={`/${category}/${item.slug.current}`}
               className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all"
             >
-              <div className="h-64 bg-gradient-to-br from-gray-200 to-gray-300 group-hover:from-teal-100 group-hover:to-amber-100 transition-all flex items-center justify-center">
-                <p className="text-gray-500">Image Placeholder</p>
+              <div className="h-64 bg-gradient-to-br from-gray-200 to-gray-300 group-hover:from-teal-100 group-hover:to-amber-100 transition-all relative overflow-hidden">
+                {item.mainImage ? (
+                  <img 
+                    src={item.mainImage} 
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full">
+                    <p className="text-gray-500">No Image Available</p>
+                  </div>
+                )}
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-2 group-hover:text-teal-700 transition">{item.title}</h3>
                 <div className="flex items-center justify-between">
-                  <p className="text-gray-500">{item.date}</p>
+                  <p className="text-gray-500">{item.createdDate}</p>
                   <div className="flex items-center gap-1 text-gray-600 text-sm">
                     <Eye size={16} />
                     <span>{item.views || 0}</span>

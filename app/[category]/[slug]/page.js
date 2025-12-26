@@ -55,11 +55,11 @@ export default async function DetailPage({ params }) {
   const item = await client.fetch(
     `*[_type == "artwork" && slug.current == $slug][0]{
       title,
-createdDate,
-description,
-mainImage,
-availabilityStatus,
-views
+      createdDate,
+      description,
+      mainImage,
+      availabilityStatus,
+      views
     }`,
     { slug }
   );
@@ -77,7 +77,7 @@ views
           </Link>
           <h1 className="text-5xl font-bold">{item.title}</h1>
           <div className="flex items-center gap-4 mt-2">
-            <p className="text-xl">{item.date}</p>
+            <p className="text-xl">{item.createdDate}</p>
             <ViewsCounter slug={slug} initialViews={item.views || 0} />
           </div>
         </div>
@@ -85,8 +85,16 @@ views
 
       <section className="max-w-5xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 gap-12">
-          <div className="bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg h-96 flex items-center justify-center">
-            <p className="text-gray-500">Artwork Image</p>
+          <div className="bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg h-96 flex items-center justify-center overflow-hidden">
+            {item.mainImage ? (
+              <img 
+                src={item.mainImage} 
+                alt={item.title}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <p className="text-gray-500">No Image</p>
+            )}
           </div>
 
           <div>
@@ -94,13 +102,8 @@ views
             <p className="text-gray-700 mb-6 leading-relaxed">{item.description}</p>
             
             <div className="space-y-3 mb-8">
-              <p><strong>Medium:</strong> {item.medium}</p>
-              <p><strong>Dimensions:</strong> {item.dimensions}</p>
-              <p><strong>Year:</strong> {item.year}</p>
-            </div>
-
-            <div className="prose prose-lg">
-              <p className="text-gray-700 leading-relaxed">{item.content}</p>
+              <p><strong>Date:</strong> {item.createdDate}</p>
+              <p><strong>Status:</strong> {item.availabilityStatus}</p>
             </div>
           </div>
         </div>
