@@ -1,8 +1,6 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import ViewsCounter from "@/components/ViewsCounter";
 import { createClient } from "@sanity/client";
-import imageUrlBuilder from '@sanity/image-url';
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -10,12 +8,6 @@ const client = createClient({
   useCdn: false,
   apiVersion: "2023-01-01",
 });
-
-// Image URL builder
-const builder = imageUrlBuilder(client);
-function urlFor(source) {
-  return builder.image(source);
-}
 
 const validCategories = [
   "earlier-work",
@@ -30,6 +22,7 @@ const validCategories = [
   "available-for-sale",
 ];
 
+/* ---------- METADATA ---------- */
 export async function generateMetadata({ params }) {
   const { category, slug } = await params;
 
@@ -52,13 +45,10 @@ export async function generateMetadata({ params }) {
   return {
     title: `${item.title} | Prof. Uttama Dixit`,
     description: item.description,
-    openGraph: {
-      title: item.title,
-      description: item.description,
-    },
   };
 }
 
+/* ---------- PAGE ---------- */
 export default async function DetailPage({ params }) {
   const { category, slug } = await params;
 
@@ -71,12 +61,8 @@ export default async function DetailPage({ params }) {
       title,
       createdDate,
       description,
-      mainImage{
-        asset->{
-          _id,
-          url
-        }
-      },
+      mainImage,
+      gallery[]{ url, alt },
       availabilityStatus,
       views
     }`,
@@ -87,66 +73,79 @@ export default async function DetailPage({ params }) {
     notFound();
   }
 
-  // Generate proper image URL
-  const imageUrl = item.mainImage?.asset?.url || 
-                   (item.mainImage?.asset ? urlFor(item.mainImage).width(800).url() : null);
-
   return (
     <div className="min-h-screen bg-gray-50">
-      <section className="bg-gradient-to-r from-teal-800 to-amber-700 text-white py-12">
-        <div className="max-w-5xl mx-auto px-4">
-          <Link
-            href={`/${category}`}
-            className="text-white/80 hover:text-white mb-4 inline-block"
-          >
-            ← Back to {category.replace(/-/g, " ")}
-          </Link>
 
-          <h1 className="text-5xl font-bold">{item.title}</h1>
+      {/* ===== Main Content (page starts here directly) ===== */}
+      <section className="max-w-5xl mx-auto px-4 pt-10 pb-14">
+        <div className="grid md:grid-cols-2 gap-10">
 
-          <div className="flex items-center gap-4 mt-2">
-            <p className="text-xl">{item.createdDate}</p>
-            <ViewsCounter slug={slug} initialViews={item.views || 0} />
-          </div>
-        </div>
-      </section>
-
-      <section className="max-w-5xl mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 gap-12">
-          <div className="bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg h-96 overflow-hidden">
-            {imageUrl ? (
+          {/* Image */}
+          {item.mainImage && (
+            <div className="rounded-lg h-96 overflow-hidden">
               <img
-                src={imageUrl}
+                src={item.mainImage}
                 alt={item.title}
                 className="w-full h-full object-cover"
               />
-            ) : (
-              <div className="flex items-center justify-center h-full">
-                <p className="text-gray-500">No Image</p>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
 
+          {/* Text */}
           <div>
-            <h2 className="text-3xl font-bold mb-4 text-gray-800">
-              About this Work
-            </h2>
+            <h1 className="text-3xl font-bold mb-4 text-gray-900">
+              {item.title}
+            </h1>
 
-            <p className="text-gray-700 mb-6 leading-relaxed">
-              {item.description}
-            </p>
+            {item.description && (
+              <p className="text-gray-700 leading-relaxed mb-6">
+                {item.description}
+              </p>
+            )}
 
-            <div className="space-y-3">
-              <p>
-                <strong>Date:</strong> {item.createdDate}
-              </p>
-              <p>
-                <strong>Status:</strong> {item.availabilityStatus}
-              </p>
+            <div className="space-y-2 text-sm text-gray-700">
+              {item.createdDate && (
+                <p>
+                  <strong>तारीख:</strong> {item.createdDate}
+                </p>
+              )}
+              {item.availabilityStatus && (
+                <p>
+                  <strong>स्थिति:</strong> {item.availabilityStatus}
+                </p>
+              )}
+              <div className="text-gray-600">
+                <ViewsCounter slug={slug} initialViews={item.views || 0} /> views
+              </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* ===== Gallery ===== */}
+      {item.gallery && item.gallery.length > 0 && (
+        <section className="max-w-5xl mx-auto px-4 pb-16">
+          <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+            गैलरी
+          </h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {item.gallery.map((img, index) => (
+              <div
+                key={index}
+                className="rounded-lg overflow-hidden shadow hover:shadow-lg transition"
+              >
+                <img
+                  src={img.url}
+                  alt={img.alt || item.title}
+                  className="w-full h-64 object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
     </div>
   );
 }

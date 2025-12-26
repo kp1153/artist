@@ -12,7 +12,8 @@ const client = createClient({
 
 export const metadata = {
   title: "Prof. Uttama Dixit - Artist, Educator, Researcher",
-  description: "Portfolio of Prof. Uttama Dixit featuring contemporary art, folk art, exhibitions and research work.",
+  description:
+    "Portfolio of Prof. Uttama Dixit featuring contemporary art, folk art, exhibitions and research work.",
 };
 
 export default async function HomePage() {
@@ -31,21 +32,23 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen">
       <HeroSlider />
-      
+
       <div className="bg-gradient-to-br from-amber-50 to-rose-50">
-        <section className="max-w-7xl mx-auto px-4 py-16">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">Latest Works</h2>
+        <section className="max-w-7xl mx-auto px-4 py-10">
+          {/* ❌ Heading हटाई गई */}
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((post) => (
-              <Link 
+              <Link
                 key={post.slug.current}
                 href={`/${post.category}/${post.slug.current}`}
                 className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
               >
-                <div className="h-48 bg-gradient-to-br from-teal-600 to-amber-600 group-hover:from-teal-700 group-hover:to-amber-700 transition-all overflow-hidden">
-                  {post.mainImage && typeof post.mainImage === 'string' ? (
-                    <img 
-                      src={post.mainImage} 
+                {/* Image area – अब visually ज्यादा space लगेगा */}
+                <div className="h-56 bg-gradient-to-br from-teal-600 to-amber-600 overflow-hidden">
+                  {post.mainImage && typeof post.mainImage === "string" ? (
+                    <img
+                      src={post.mainImage}
                       alt={post.title}
                       className="w-full h-full object-cover"
                     />
@@ -55,10 +58,17 @@ export default async function HomePage() {
                     </div>
                   )}
                 </div>
-                <div className="p-6">
-                  <span className="text-xs text-teal-600 font-semibold uppercase">{post.category}</span>
-                  <h3 className="text-2xl font-bold mb-2 text-gray-800 group-hover:text-teal-700 transition">{post.title}</h3>
-                  <p className="text-gray-600 text-sm mb-3">{post.description}</p>
+
+                <div className="p-5">
+                  <span className="text-xs text-teal-600 font-semibold uppercase">
+                    {post.category}
+                  </span>
+                  <h3 className="text-xl font-bold mb-2 text-gray-800 group-hover:text-teal-700 transition">
+                    {post.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-3">
+                    {post.description}
+                  </p>
                   <div className="flex items-center justify-between text-sm text-gray-500">
                     <span>{post.createdDate}</span>
                     <div className="flex items-center gap-1">
