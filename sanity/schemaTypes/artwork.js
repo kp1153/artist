@@ -141,7 +141,20 @@ const artwork = {
       type: 'number',
       initialValue: 0
     }
-  ]
+  ],
+  preview: {
+    select: {
+      title: 'title',
+      subtitle: 'category'
+    },
+    prepare(selection) {
+      const { title, subtitle } = selection;
+      return {
+        title: title,
+        subtitle: subtitle || 'No category'
+      };
+    }
+  }
 }
 
 export default artwork

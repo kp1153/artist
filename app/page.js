@@ -43,7 +43,7 @@ export default async function HomePage() {
                 className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
               >
                 <div className="h-48 bg-gradient-to-br from-teal-600 to-amber-600 group-hover:from-teal-700 group-hover:to-amber-700 transition-all overflow-hidden">
-                  {post.mainImage ? (
+                  {post.mainImage && typeof post.mainImage === 'string' ? (
                     <img 
                       src={post.mainImage} 
                       alt={post.title}

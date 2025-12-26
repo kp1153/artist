@@ -107,7 +107,7 @@ export default function MultiImageInput(props) {
           {value.map((item, index) => (
             <Card key={item._key || index} padding={3} radius={2} shadow={1}>
               <Stack space={2}>
-                {item.url && (
+                {item.url && typeof item.url === 'string' && (
                   <img
                     src={item.url}
                     alt={item.alt || "Gallery image"}

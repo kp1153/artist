@@ -53,7 +53,6 @@ export default function CloudinaryImageInput(props) {
     onChange(unset());
   }, [onChange]);
 
-  // Handle both string URLs and objects with url property
   const imageUrl = typeof value === 'string' ? value : value?.url;
   const displayText = typeof value === 'string' ? value : (value?.url || 'Invalid data');
 
