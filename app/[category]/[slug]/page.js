@@ -20,14 +20,24 @@ const validCategories = [
   "workshop",
   "exhibitions",
   "blog",
-  "available-for-sale"
+  "available-for-sale",
 ];
 
+
+// ---------- METADATA ----------
 export async function generateMetadata({ params }) {
   const { category, slug } = await params;
 
+  // ✅ category validation (missing earlier)
+  if (!validCategories.includes(category)) {
+    return { title: "Not Found" };
+  }
+
   const item = await client.fetch(
-    `*[_type == "artwork" && slug.current == $slug][0]{ title, description }`,
+    `*[_type == "artwork" && slug.current == $slug][0]{
+      title,
+      description
+    }`,
     { slug }
   );
 
@@ -45,6 +55,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
+
+// ---------- PAGE ----------
 export default async function DetailPage({ params }) {
   const { category, slug } = await params;
 
@@ -72,10 +84,15 @@ export default async function DetailPage({ params }) {
     <div className="min-h-screen bg-gray-50">
       <section className="bg-gradient-to-r from-teal-800 to-amber-700 text-white py-12">
         <div className="max-w-5xl mx-auto px-4">
-          <Link href={`/${category}`} className="text-white/80 hover:text-white mb-4 inline-block">
-            ← Back to {category.replace('-', ' ')}
+          <Link
+            href={`/${category}`}
+            className="text-white/80 hover:text-white mb-4 inline-block"
+          >
+            ← Back to {category.replace(/-/g, " ")}
           </Link>
+
           <h1 className="text-5xl font-bold">{item.title}</h1>
+
           <div className="flex items-center gap-4 mt-2">
             <p className="text-xl">{item.createdDate}</p>
             <ViewsCounter slug={slug} initialViews={item.views || 0} />
@@ -85,25 +102,36 @@ export default async function DetailPage({ params }) {
 
       <section className="max-w-5xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 gap-12">
-          <div className="bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg h-96 flex items-center justify-center overflow-hidden">
+          <div className="bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg h-96 overflow-hidden">
             {item.mainImage ? (
-              <img 
-                src={item.mainImage} 
+              <img
+                src={item.mainImage}
                 alt={item.title}
                 className="w-full h-full object-cover"
               />
             ) : (
-              <p className="text-gray-500">No Image</p>
+              <div className="flex items-center justify-center h-full">
+                <p className="text-gray-500">No Image</p>
+              </div>
             )}
           </div>
 
           <div>
-            <h2 className="text-3xl font-bold mb-4 text-gray-800">About this Work</h2>
-            <p className="text-gray-700 mb-6 leading-relaxed">{item.description}</p>
-            
-            <div className="space-y-3 mb-8">
-              <p><strong>Date:</strong> {item.createdDate}</p>
-              <p><strong>Status:</strong> {item.availabilityStatus}</p>
+            <h2 className="text-3xl font-bold mb-4 text-gray-800">
+              About this Work
+            </h2>
+
+            <p className="text-gray-700 mb-6 leading-relaxed">
+              {item.description}
+            </p>
+
+            <div className="space-y-3">
+              <p>
+                <strong>Date:</strong> {item.createdDate}
+              </p>
+              <p>
+                <strong>Status:</strong> {item.availabilityStatus}
+              </p>
             </div>
           </div>
         </div>

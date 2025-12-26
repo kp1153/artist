@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useState } from "react";
 import { Stack, Button, Card, Text, Spinner, Flex } from "@sanity/ui";
 import { set, unset } from "sanity";
