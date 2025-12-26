@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { createClient } from "@sanity/client";
 import { Eye } from "lucide-react";
@@ -74,39 +73,46 @@ export default async function CategoryPage({ params }) {
       </section>
 
       <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {items.map((item) => (
-            <Link 
-              key={item.slug.current}
-              href={`/${category}/${item.slug.current}`}
-              className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all"
-            >
-              <div className="h-64 bg-gradient-to-br from-gray-200 to-gray-300 group-hover:from-teal-100 group-hover:to-amber-100 transition-all relative overflow-hidden">
-                {item.mainImage ? (
-                  <img 
-                    src={item.mainImage} 
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-full">
-                    <p className="text-gray-500">No Image Available</p>
-                  </div>
-                )}
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 group-hover:text-teal-700 transition">{item.title}</h3>
-                <div className="flex items-center justify-between">
-                  <p className="text-gray-500">{item.createdDate}</p>
-                  <div className="flex items-center gap-1 text-gray-600 text-sm">
-                    <Eye size={16} />
-                    <span>{item.views || 0}</span>
+        {items.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No items found in this category.</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {items.map((item) => (
+              <Link 
+                key={item.slug.current}
+                href={`/${category}/${item.slug.current}`}
+                className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all"
+              >
+                <div className="h-64 bg-gradient-to-br from-gray-200 to-gray-300 group-hover:from-teal-100 group-hover:to-amber-100 transition-all relative overflow-hidden">
+                  {item.mainImage ? (
+                    <img 
+                      src={item.mainImage} 
+                      alt={item.title || 'Artwork'}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <p className="text-gray-500">No Image Available</p>
+                    </div>
+                  )}
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-teal-700 transition">{item.title}</h3>
+                  <div className="flex items-center justify-between">
+                    <p className="text-gray-500">{item.createdDate || 'Date not available'}</p>
+                    <div className="flex items-center gap-1 text-gray-600 text-sm">
+                      <Eye size={16} />
+                      <span>{item.views || 0}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
