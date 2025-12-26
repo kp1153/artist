@@ -1,8 +1,49 @@
- import Link from "next/link";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import ViewsCounter from "@/components/ViewsCounter";
+import { createClient } from "@sanity/client";
 
-const validCategories = ["folk-art", "contemporary", "gallery", "exhibitions", "publications", "blog"];
+const client = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+  useCdn: false,
+  apiVersion: "2023-01-01",
+});
+
+const validCategories = [
+  "earlier-work",
+  "abstract",
+  "semi-abstract",
+  "beauty-of-nature",
+  "spiritual",
+  "miscellaneous",
+  "workshop",
+  "exhibitions",
+  "blog",
+  "available-for-sale"
+];
+
+export async function generateMetadata({ params }) {
+  const { category, slug } = await params;
+
+  const item = await client.fetch(
+    `*[_type == "post" && slug.current == $slug][0]{ title, description }`,
+    { slug }
+  );
+
+  if (!item) {
+    return { title: "Not Found" };
+  }
+
+  return {
+    title: `${item.title} | Prof. Uttama Dixit`,
+    description: item.description,
+    openGraph: {
+      title: item.title,
+      description: item.description,
+    },
+  };
+}
 
 export default async function DetailPage({ params }) {
   const { category, slug } = await params;
@@ -11,22 +52,26 @@ export default async function DetailPage({ params }) {
     notFound();
   }
 
-  // Mock data - Replace with Sanity CMS fetch
-  const item = {
-    title: "Lotus Series 2024",
-    date: "March 2024",
-    description: "A contemporary exploration of the lotus motif in Indian folk art tradition, blending Kashi's cultural heritage with modern artistic expressions.",
-    content: `This series represents a deep dive into the symbolism of the lotus in Indian art and culture. 
-    Drawing inspiration from traditional Kashi folk paintings, these works reimagine the sacred flower through 
-    a contemporary lens while maintaining its spiritual and cultural significance.`,
-    medium: "Acrylic on Canvas",
-    dimensions: "36 x 48 inches",
-    year: "2024"
-  };
+  const item = await client.fetch(
+    `*[_type == "post" && slug.current == $slug][0]{
+      title,
+      date,
+      description,
+      content,
+      medium,
+      dimensions,
+      year,
+      views
+    }`,
+    { slug }
+  );
+
+  if (!item) {
+    notFound();
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <section className="bg-gradient-to-r from-teal-800 to-amber-700 text-white py-12">
         <div className="max-w-5xl mx-auto px-4">
           <Link href={`/${category}`} className="text-white/80 hover:text-white mb-4 inline-block">
@@ -35,20 +80,17 @@ export default async function DetailPage({ params }) {
           <h1 className="text-5xl font-bold">{item.title}</h1>
           <div className="flex items-center gap-4 mt-2">
             <p className="text-xl">{item.date}</p>
-            <ViewsCounter slug={slug} />
+            <ViewsCounter slug={slug} initialViews={item.views || 0} />
           </div>
         </div>
       </section>
 
-      {/* Content */}
       <section className="max-w-5xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 gap-12">
-          {/* Image */}
           <div className="bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg h-96 flex items-center justify-center">
             <p className="text-gray-500">Artwork Image</p>
           </div>
 
-          {/* Details */}
           <div>
             <h2 className="text-3xl font-bold mb-4 text-gray-800">About this Work</h2>
             <p className="text-gray-700 mb-6 leading-relaxed">{item.description}</p>

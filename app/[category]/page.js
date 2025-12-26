@@ -10,7 +10,40 @@ const client = createClient({
   apiVersion: "2023-01-01",
 });
 
-const validCategories = ["folk-art", "contemporary", "gallery", "exhibitions", "publications", "blog"];
+const validCategories = [
+  "earlier-work",
+  "abstract",
+  "semi-abstract",
+  "beauty-of-nature",
+  "spiritual",
+  "miscellaneous",
+  "workshop",
+  "exhibitions",
+  "blog",
+  "available-for-sale"
+];
+
+const categoryTitles = {
+  "earlier-work": "Earlier Work",
+  "abstract": "Abstract Art",
+  "semi-abstract": "Semi-Abstract Art",
+  "beauty-of-nature": "Beauty of Nature",
+  "spiritual": "Spiritual Art",
+  "miscellaneous": "Miscellaneous Works",
+  "workshop": "Workshops",
+  "exhibitions": "Exhibitions",
+  "blog": "Blog & Articles",
+  "available-for-sale": "Available for Sale"
+};
+
+export async function generateMetadata({ params }) {
+  const { category } = await params;
+
+  return {
+    title: `${categoryTitles[category]} | Prof. Uttama Dixit`,
+    description: `Explore ${categoryTitles[category]} by Prof. Uttama Dixit - Artist, Educator, Researcher`,
+  };
+}
 
 export default async function CategoryPage({ params }) {
   const { category } = await params;
@@ -19,16 +52,6 @@ export default async function CategoryPage({ params }) {
     notFound();
   }
 
-  const categoryTitles = {
-    "folk-art": "Folk Art",
-    "contemporary": "Contemporary Art",
-    "gallery": "Complete Gallery",
-    "exhibitions": "Exhibitions",
-    "publications": "Publications",
-    "blog": "Blog & Articles"
-  };
-
-  // Sanity से data fetch करें
   const items = await client.fetch(
     `*[_type == "post" && category == $category] | order(date desc){
       slug,
@@ -41,7 +64,6 @@ export default async function CategoryPage({ params }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <section className="bg-gradient-to-r from-teal-800 to-amber-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-4">{categoryTitles[category]}</h1>
@@ -49,7 +71,6 @@ export default async function CategoryPage({ params }) {
         </div>
       </section>
 
-      {/* Items Grid */}
       <section className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {items.map((item) => (

@@ -1,3 +1,7 @@
+import CloudinaryImageInput from './CloudinaryImageInput'
+import MultiImageInput from './MultiImageInput'
+import { hindiToRoman } from './hindiToRoman'
+
 const artwork = {
   name: 'artwork',
   title: 'Artwork',
@@ -10,40 +14,100 @@ const artwork = {
       validation: Rule => Rule.required()
     },
     {
-      name: 'titleHindi',
-      title: 'Title (Hindi)',
-      type: 'string',
-    },
-    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
       options: {
         source: 'title',
-        maxLength: 96
+        maxLength: 96,
+        slugify: (input) => {
+          const romanized = hindiToRoman(input);
+          const timePart = new Date()
+            .toISOString()
+            .replace(/[-:.TZ]/g, "")
+            .slice(0, 14);
+          return `${romanized}-${timePart}`;
+        },
       },
       validation: Rule => Rule.required()
     },
     {
       name: 'mainImage',
-      title: 'Main Image',
-      type: 'image',
-      options: {
-        hotspot: true
+      title: 'Main Image (Cloudinary URL)',
+      type: 'string',
+      components: {
+        input: CloudinaryImageInput,
       },
       validation: Rule => Rule.required()
     },
     {
       name: 'gallery',
-      title: 'Additional Images',
+      title: 'Gallery Images',
       type: 'array',
-      of: [{type: 'image', options: {hotspot: true}}]
+      of: [
+        {
+          type: 'object',
+          name: 'galleryImage',
+          fields: [
+            {
+              name: 'url',
+              title: 'Image URL',
+              type: 'string',
+            },
+            {
+              name: 'alt',
+              title: 'Alt Text',
+              type: 'string',
+            },
+          ],
+        },
+      ],
+      components: {
+        input: MultiImageInput,
+      },
+    },
+    {
+      name: 'youtubeVideos',
+      title: 'YouTube Videos',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'youtubeVideo',
+          fields: [
+            {
+              name: 'url',
+              title: 'YouTube URL',
+              type: 'url',
+              validation: Rule => Rule.uri({ scheme: ['http', 'https'] }),
+            },
+            {
+              name: 'caption',
+              title: 'Caption',
+              type: 'string',
+            },
+          ],
+        },
+      ],
     },
     {
       name: 'category',
       title: 'Category',
-      type: 'reference',
-      to: [{type: 'category'}],
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Earlier Work', value: 'earlier-work'},
+          {title: 'Abstract', value: 'abstract'},
+          {title: 'Semi-Abstract', value: 'semi-abstract'},
+          {title: 'Beauty of Nature', value: 'beauty-of-nature'},
+          {title: 'Spiritual', value: 'spiritual'},
+          {title: 'Miscellaneous', value: 'miscellaneous'},
+          {title: 'Workshop', value: 'workshop'},
+          {title: 'Exhibitions', value: 'exhibitions'},
+          {title: 'Blog', value: 'blog'},
+          {title: 'Available for Sale', value: 'available-for-sale'}
+        ]
+      },
       validation: Rule => Rule.required()
     },
     {
@@ -53,36 +117,9 @@ const artwork = {
       validation: Rule => Rule.required().min(1980).max(new Date().getFullYear())
     },
     {
-      name: 'medium',
-      title: 'Medium',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Acrylic on Canvas', value: 'acrylic'},
-          {title: 'Oil on Canvas', value: 'oil'},
-          {title: 'Mixed Media', value: 'mixed'},
-          {title: 'Other', value: 'other'}
-        ]
-      }
-    },
-    {
-      name: 'dimensions',
-      title: 'Dimensions',
-      type: 'object',
-      fields: [
-        {name: 'width', title: 'Width (cm)', type: 'number'},
-        {name: 'height', title: 'Height (cm)', type: 'number'}
-      ]
-    },
-    {
       name: 'description',
       title: 'Description',
       type: 'text'
-    },
-    {
-      name: 'price',
-      title: 'Price (₹)',
-      type: 'number'
     },
     {
       name: 'availabilityStatus',
@@ -99,15 +136,12 @@ const artwork = {
       validation: Rule => Rule.required()
     },
     {
-      name: 'featured',
-      title: 'Featured Artwork',
-      type: 'boolean'
-    },
-    {
-      name: 'publishedAt',
-      title: 'Published At',
-      type: 'datetime'
+      name: 'views',
+      title: 'Views Count',
+      type: 'number',
+      initialValue: 0
     }
   ]
 }
+
 export default artwork

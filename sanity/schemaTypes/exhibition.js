@@ -1,3 +1,6 @@
+import MultiImageInput from './MultiImageInput'
+import { hindiToRoman } from './hindiToRoman'
+
 const exhibition = {
   name: 'exhibition',
   title: 'Exhibition',
@@ -14,7 +17,15 @@ const exhibition = {
       title: 'Slug',
       type: 'slug',
       options: {
-        source: 'title'
+        source: 'title',
+        slugify: (input) => {
+          const romanized = hindiToRoman(input);
+          const timePart = new Date()
+            .toISOString()
+            .replace(/[-:.TZ]/g, "")
+            .slice(0, 14);
+          return `${romanized}-${timePart}`;
+        },
       },
       validation: Rule => Rule.required()
     },
@@ -54,8 +65,29 @@ const exhibition = {
       name: 'images',
       title: 'Exhibition Images',
       type: 'array',
-      of: [{type: 'image', options: {hotspot: true}}]
+      of: [
+        {
+          type: 'object',
+          name: 'galleryImage',
+          fields: [
+            {
+              name: 'url',
+              title: 'Image URL',
+              type: 'string',
+            },
+            {
+              name: 'alt',
+              title: 'Alt Text',
+              type: 'string',
+            },
+          ],
+        },
+      ],
+      components: {
+        input: MultiImageInput,
+      },
     }
   ]
 }
+
 export default exhibition

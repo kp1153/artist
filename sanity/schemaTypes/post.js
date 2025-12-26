@@ -1,3 +1,6 @@
+import CloudinaryImageInput from './CloudinaryImageInput'
+import { hindiToRoman } from './hindiToRoman'
+
 const post = {
   name: 'post',
   title: 'Blog Post',
@@ -10,40 +13,30 @@ const post = {
       validation: Rule => Rule.required()
     },
     {
-      name: 'titleHindi',
-      title: 'Title (Hindi)',
-      type: 'string',
-    },
-    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
       options: {
         source: 'title',
-        maxLength: 96
+        maxLength: 96,
+        slugify: (input) => {
+          const romanized = hindiToRoman(input);
+          const timePart = new Date()
+            .toISOString()
+            .replace(/[-:.TZ]/g, "")
+            .slice(0, 14);
+          return `${romanized}-${timePart}`;
+        },
       },
       validation: Rule => Rule.required()
     },
     {
       name: 'mainImage',
-      title: 'Main Image',
-      type: 'image',
-      options: {
-        hotspot: true
-      }
-    },
-    {
-      name: 'author',
-      title: 'Author',
+      title: 'Main Image (Cloudinary URL)',
       type: 'string',
-      initialValue: 'Dr. Uttama Dixit'
-    },
-    {
-      name: 'excerpt',
-      title: 'Excerpt',
-      type: 'text',
-      rows: 3,
-      validation: Rule => Rule.max(200)
+      components: {
+        input: CloudinaryImageInput,
+      }
     },
     {
       name: 'body',
@@ -86,8 +79,76 @@ const post = {
           }
         },
         {
-          type: 'image',
-          options: {hotspot: true}
+          type: 'object',
+          name: 'cloudinaryImage',
+          title: 'Image (Cloudinary)',
+          fields: [
+            {
+              name: 'url',
+              title: 'Image URL',
+              type: 'string',
+              components: {
+                input: CloudinaryImageInput,
+              },
+            },
+            {
+              name: 'caption',
+              title: 'Caption',
+              type: 'string',
+            },
+          ],
+        },
+        {
+          type: 'object',
+          name: 'gallery',
+          title: 'Photo Gallery',
+          fields: [
+            {
+              name: 'images',
+              title: 'Images',
+              type: 'array',
+              of: [
+                {
+                  type: 'object',
+                  name: 'galleryImage',
+                  fields: [
+                    {
+                      name: 'url',
+                      title: 'Image URL',
+                      type: 'string',
+                    },
+                    {
+                      name: 'alt',
+                      title: 'Alt Text',
+                      type: 'string',
+                    },
+                  ],
+                },
+              ],
+              components: {
+                input: CloudinaryImageInput,
+              },
+              validation: Rule => Rule.min(1).error('At least one image required'),
+            },
+          ],
+        },
+        {
+          type: 'object',
+          name: 'youtube',
+          title: 'YouTube Video',
+          fields: [
+            {
+              name: 'url',
+              title: 'YouTube URL',
+              type: 'url',
+              validation: Rule => Rule.required().uri({ scheme: ['http', 'https'] }),
+            },
+            {
+              name: 'caption',
+              title: 'Caption',
+              type: 'string',
+            },
+          ],
         }
       ],
       validation: Rule => Rule.required()
@@ -106,11 +167,6 @@ const post = {
       options: {
         layout: 'tags'
       }
-    },
-    {
-      name: 'featured',
-      title: 'Featured Post',
-      type: 'boolean'
     },
     {
       name: 'publishedAt',
@@ -134,4 +190,5 @@ const post = {
     }
   }
 }
+
 export default post
