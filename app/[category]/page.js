@@ -20,30 +20,8 @@ const validCategories = [
   "workshop",
   "exhibitions",
   "blog",
-  "available-for-sale"
+  "available-for-sale",
 ];
-
-const categoryTitles = {
-  "earlier-work": "Earlier Work",
-  "abstract": "Abstract Art",
-  "semi-abstract": "Semi-Abstract Art",
-  "beauty-of-nature": "Beauty of Nature",
-  "spiritual": "Spiritual Art",
-  "miscellaneous": "Miscellaneous Works",
-  "workshop": "Workshops",
-  "exhibitions": "Exhibitions",
-  "blog": "Blog & Articles",
-  "available-for-sale": "Available for Sale"
-};
-
-export async function generateMetadata({ params }) {
-  const { category } = await params;
-
-  return {
-    title: `${categoryTitles[category]} | Prof. Uttama Dixit`,
-    description: `Explore ${categoryTitles[category]} by Prof. Uttama Dixit - Artist, Educator, Researcher`,
-  };
-}
 
 export default async function CategoryPage({ params }) {
   const { category } = await params;
@@ -65,48 +43,36 @@ export default async function CategoryPage({ params }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <section className="bg-gradient-to-r from-teal-800 to-amber-700 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-4">{categoryTitles[category]}</h1>
-          <p className="text-xl">Explore the collection</p>
-        </div>
-      </section>
+      {/* ❌ Hero / Title section पूरी तरह हटाई गई */}
 
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        {items.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No items found in this category.</p>
-          </div>
-        ) : (
+      <section className="max-w-7xl mx-auto px-4 py-10">
+        {items.length === 0 ? null : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {items.map((item) => (
-              <Link 
+              <Link
                 key={item.slug.current}
                 href={`/${category}/${item.slug.current}`}
                 className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all"
               >
-                <div className="h-64 bg-gradient-to-br from-gray-200 to-gray-300 group-hover:from-teal-100 group-hover:to-amber-100 transition-all relative overflow-hidden">
-                  {item.mainImage ? (
-                    <img 
-                      src={item.mainImage} 
-                      alt={item.title || 'Artwork'}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="flex items-center justify-center h-full">
-                      <p className="text-gray-500">No Image Available</p>
-                    </div>
-                  )}
+                <div className="h-64 overflow-hidden">
+                  <img
+                    src={item.mainImage}
+                    alt={item.title}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-teal-700 transition">{item.title}</h3>
-                  <div className="flex items-center justify-between">
-                    <p className="text-gray-500">{item.createdDate || 'Date not available'}</p>
-                    <div className="flex items-center gap-1 text-gray-600 text-sm">
-                      <Eye size={16} />
-                      <span>{item.views || 0}</span>
-                    </div>
+
+                <div className="p-5">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {item.title}
+                  </h3>
+
+                  <div className="flex items-center justify-between text-sm text-gray-500 mt-2">
+                    <span>{item.createdDate}</span>
+                    <span className="flex items-center gap-1">
+                      <Eye size={14} />
+                      {item.views || 0}
+                    </span>
                   </div>
                 </div>
               </Link>
