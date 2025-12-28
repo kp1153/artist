@@ -56,30 +56,23 @@ const components = {
         ))}
       </div>
     ),
-    youtube: ({ value }) => {
-     const getYouTubeId = (url) => {
-  const match = url?.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
-  return match?.[1];
-};
-const videoId = getYouTubeId(value.url);
-      return (
-        <div className="my-8">
-          <div className="relative w-full pb-[56.25%]">
-            <iframe
-              className="absolute top-0 left-0 w-full h-full rounded-lg"
-              src={`https://www.youtube.com/embed/${videoId}`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-          {value.caption && (
-            <p className="text-sm text-gray-600 mt-2 text-center italic">
-              {value.caption}
-            </p>
-          )}
-        </div>
-      );
-    },
+    youtube: ({ value }) => (
+      <div className="my-8">
+        
+          href={value.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block bg-red-600 text-white text-center py-4 rounded-lg hover:bg-red-700 transition"
+        >
+          YouTube पर देखें
+        </a>
+        {value.caption && (
+          <p className="text-sm text-gray-600 mt-2 text-center italic">
+            {value.caption}
+          </p>
+        )}
+      </div>
+    ),
   },
 };
 
