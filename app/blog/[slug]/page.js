@@ -10,7 +10,7 @@ const client = createClient({
 });
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const post = await client.fetch(
     `*[_type == "post" && slug.current == $slug][0]{
@@ -80,7 +80,7 @@ const components = {
 };
 
 export default async function BlogDetailPage({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const post = await client.fetch(
     `*[_type == "post" && slug.current == $slug][0]{
