@@ -87,9 +87,7 @@ const post = {
               name: 'url',
               title: 'Image URL',
               type: 'string',
-              components: {
-                input: CloudinaryImageInput,
-              },
+             
             },
             {
               name: 'caption',
@@ -182,13 +180,19 @@ const post = {
       by: [{field: 'publishedAt', direction: 'desc'}]
     }
   ],
-  preview: {
-    select: {
-      title: 'title',
-      media: 'mainImage',
-      date: 'publishedAt'
-    }
+ preview: {
+  select: {
+    title: 'title',
+    subtitle: 'publishedAt'
+  },
+  prepare(selection) {
+    const { title, subtitle } = selection;
+    return {
+      title: title,
+      subtitle: subtitle ? new Date(subtitle).toLocaleDateString() : 'No date'
+    };
   }
+}
 }
 
 export default post
