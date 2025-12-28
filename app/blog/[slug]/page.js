@@ -10,7 +10,7 @@ const client = createClient({
 });
 
 export async function generateMetadata({ params }) {
-  const { slug } = await params;
+  const { slug } = params;
 
   const post = await client.fetch(
     `*[_type == "post" && slug.current == $slug][0]{
@@ -44,6 +44,7 @@ const components = {
         )}
       </div>
     ),
+
     gallery: ({ value }) => (
       <div className="my-8 grid grid-cols-2 md:grid-cols-3 gap-4">
         {value.images?.map((img, index) => (
@@ -56,9 +57,10 @@ const components = {
         ))}
       </div>
     ),
+
     youtube: ({ value }) => (
       <div className="my-8">
-        
+        <a
           href={value.url}
           target="_blank"
           rel="noopener noreferrer"
@@ -66,6 +68,7 @@ const components = {
         >
           YouTube पर देखें
         </a>
+
         {value.caption && (
           <p className="text-sm text-gray-600 mt-2 text-center italic">
             {value.caption}
@@ -77,7 +80,7 @@ const components = {
 };
 
 export default async function BlogDetailPage({ params }) {
-  const { slug } = await params;
+  const { slug } = params;
 
   const post = await client.fetch(
     `*[_type == "post" && slug.current == $slug][0]{
@@ -101,10 +104,10 @@ export default async function BlogDetailPage({ params }) {
         </h1>
 
         <p className="text-gray-600 mb-8">
-          {new Date(post.publishedAt).toLocaleDateString('hi-IN', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
+          {new Date(post.publishedAt).toLocaleDateString("hi-IN", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
           })}
         </p>
 
