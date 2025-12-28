@@ -57,7 +57,11 @@ const components = {
       </div>
     ),
     youtube: ({ value }) => {
-      const videoId = value.url?.split("v=")[1]?.split("&")[0];
+     const getYouTubeId = (url) => {
+  const match = url?.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+  return match?.[1];
+};
+const videoId = getYouTubeId(value.url);
       return (
         <div className="my-8">
           <div className="relative w-full pb-[56.25%]">
