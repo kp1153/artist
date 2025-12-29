@@ -42,7 +42,7 @@ export const metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: "Dr. Uttama Dixit - Renowned Indian Artist, Educator & Researcher",
+    title: "Prof. Uttama Dixit - Renowned Indian Artist, Educator & Researcher",
     description: "Distinguished artist & Dean at Faculty of Visual Arts, BHU. Expert in Folk Art & Contemporary Painting. 45+ exhibitions, 12 PhDs awarded.",
     url: 'https://www.artistuttamadixit.online',
     siteName: 'Dr. Uttama Dixit - Artist Portfolio',
