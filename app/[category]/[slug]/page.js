@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import ViewsCounter from "@/components/ViewsCounter";
 import { createClient } from "@sanity/client";
+import { Edit } from "lucide-react";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -58,6 +59,7 @@ export default async function DetailPage({ params }) {
 
   const item = await client.fetch(
     `*[_type == "artwork" && slug.current == $slug][0]{
+      _id,
       title,
       createdDate,
       description,
@@ -75,6 +77,17 @@ export default async function DetailPage({ params }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
+
+      {/* Edit Button */}
+      <a 
+        href={`https://www.artistuttamadixit.online/studio/structure/artwork;${item._id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 bg-blue-600 text-white px-4 py-3 rounded-lg shadow-lg hover:bg-blue-700 flex items-center gap-2 z-50"
+      >
+        <Edit size={18} />
+        संपादित करें
+      </a>
 
       {/* ===== Main Content (page starts here directly) ===== */}
       <section className="max-w-5xl mx-auto px-4 pt-10 pb-14">
