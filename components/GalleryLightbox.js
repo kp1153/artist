@@ -96,16 +96,16 @@ export default function GalleryLightbox({ images }) {
             </>
           )}
 
-          <div
-            className="w-screen h-screen flex items-center justify-center p-0"
-            onClick={(e) => e.stopPropagation()}
-          >
-       <img
-  src={images[currentIndex].url}
-  alt={images[currentIndex].alt || `Image ${currentIndex + 1}`}
-  className="w-full h-auto max-h-screen object-contain"
-/>
-          </div>
+         <div
+  className="w-screen h-screen flex items-center justify-center p-0 m-0"
+  onClick={(e) => e.stopPropagation()}
+>
+  <img
+    src={images[currentIndex].url}
+    alt={images[currentIndex].alt || `Image ${currentIndex + 1}`}
+    className="w-screen h-screen object-contain p-0 m-0"
+  />
+</div>
 
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white bg-black/50 px-4 py-2 rounded-full">
             {currentIndex + 1} / {images.length}
