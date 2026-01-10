@@ -1,3 +1,4 @@
+import GalleryLightbox from "@/components/GalleryLightbox";
 import { notFound } from "next/navigation";
 import ViewsCounter from "@/components/ViewsCounter";
 import { createClient } from "@sanity/client";
@@ -142,21 +143,8 @@ export default async function DetailPage({ params }) {
             गैलरी
           </h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {item.gallery.map((img, index) => (
-              <div
-                key={index}
-                className="rounded-lg overflow-hidden shadow hover:shadow-lg transition"
-              >
-                <img
-                  src={img.url}
-                  alt={img.alt || item.title}
-                  className="w-full h-64 object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        </section>
+          <GalleryLightbox images={item.gallery} />
+                  </section>
       )}
 
     </div>
