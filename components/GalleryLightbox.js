@@ -96,14 +96,14 @@ export default function GalleryLightbox({ images }) {
             </>
           )}
 
-         <div
+<div
   className="w-screen h-screen flex items-center justify-center p-0 m-0"
   onClick={(e) => e.stopPropagation()}
 >
   <img
     src={images[currentIndex].url}
     alt={images[currentIndex].alt || `Image ${currentIndex + 1}`}
-    className="w-screen h-screen object-contain p-0 m-0"
+    className="min-w-full h-auto object-cover"
   />
 </div>
 
