@@ -48,7 +48,7 @@ export const metadata = {
     siteName: 'Dr. Uttama Dixit - Artist Portfolio',
     images: [
       {
-        url: '/uttama-dixit-og.jpg',
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Dr. Uttama Dixit - Renowned Indian Artist and Professor',
@@ -61,7 +61,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Dr. Uttama Dixit - Indian Artist & Educator',
     description: 'Professor & Dean at BHU Visual Arts | 45+ Exhibitions | Folk Art Expert',
-    images: ['/uttama-dixit-og.jpg'],
+    images: ['/og-image.jpg'],
   },
   robots: {
     index: true,
@@ -167,7 +167,7 @@ export default function RootLayout({ children }) {
                   "author": "Dr. Uttama Dixit"
                 }
               ],
-              "image": "https://www.artistuttamadixit.online/uttama-dixit-og.jpg",
+              "image": "https://www.artistuttamadixit.online/og-image.jpg",
               "sameAs": []
             })
           }}
