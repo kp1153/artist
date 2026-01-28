@@ -29,14 +29,63 @@ export default async function HomePage() {
     }`
   );
 
+  const sections = [
+    {
+      title: "About",
+      text: "प्रोफेसर उत्तमा दीक्षित की शैक्षणिक यात्रा और उपलब्धियाँ",
+      link: "/about"
+    },
+    {
+      title: "Experience",
+      text: "शिक्षण और शोध में विशाल अनुभव का विवरण",
+      link: "/experience"
+    },
+    {
+      title: "Research",
+      text: "शोध कार्य, प्रकाशन और योगदान की जानकारी",
+      link: "/research"
+    },
+    {
+      title: "Administrative Roles",
+      text: "विभिन्न प्रशासनिक पदों पर किए गए कार्य",
+      link: "/administrative-roles"
+    },
+    {
+      title: "Research Scholars",
+      text: "शोधार्थियों का मार्गदर्शन और उनकी उपलब्धियाँ",
+      link: "/research-scholars"
+    }
+  ];
+
   return (
     <div className="min-h-screen">
       <HeroSlider />
 
+      {/* 5 Cards Section */}
+      <section className="bg-gradient-to-br from-teal-50 to-amber-50 py-12">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            {sections.map((section, index) => (
+              <Link
+                key={index}
+                href={section.link}
+                className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <h3 className="font-bold text-[#0f4c5c] text-lg mb-2">
+                  {section.title}
+                </h3>
+                <p className="text-sm text-gray-700">
+                  {section.text}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Artworks Gallery */}
       <div className="bg-gradient-to-br from-amber-50 to-rose-50">
         <section className="max-w-7xl mx-auto px-4 py-10">
-          {/* ❌ Heading हटाई गई */}
-
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((post) => (
               <Link
@@ -44,7 +93,6 @@ export default async function HomePage() {
                 href={`/${post.category}/${post.slug.current}`}
                 className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
               >
-                {/* Image area – अब visually ज्यादा space लगेगा */}
                 <div className="h-56 bg-gradient-to-br from-teal-600 to-amber-600 overflow-hidden">
                   {post.mainImage && typeof post.mainImage === "string" ? (
                     <img
