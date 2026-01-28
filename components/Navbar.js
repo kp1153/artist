@@ -19,15 +19,15 @@ export default function Navbar() {
 
   return (
     <nav className="bg-[#0f4c5c] text-[#f7f7f7]">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4">
 
         {/* Top bar */}
-        <div className="flex items-center justify-between border-b border-white/10 py-2">
-          <Link href="/" className="leading-tight">
-            <h1 className="text-lg md:text-xl font-semibold font-serif hover:text-[#ffd166] transition">
+        <div className="flex items-center justify-between border-b border-white/10 py-2.5 sm:py-2">
+          <Link href="/" className="leading-tight flex-1 min-w-0">
+            <h1 className="text-base sm:text-lg md:text-xl font-semibold font-serif hover:text-[#ffd166] transition truncate">
               Prof. Uttama Dixit
             </h1>
-            <p className="text-xs md:text-sm italic text-white/80">
+            <p className="text-[10px] sm:text-xs md:text-sm italic text-white/80 hidden xs:block sm:block">
               Artist | Educator | Researcher
             </p>
           </Link>
@@ -35,7 +35,7 @@ export default function Navbar() {
           {/* Hamburger – PC + Mobile */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded hover:bg-white/10"
+            className="p-2 rounded hover:bg-white/10 flex-shrink-0 ml-2"
             aria-label="Toggle menu"
           >
             {isOpen ? <X size={22} /> : <Menu size={22} />}
