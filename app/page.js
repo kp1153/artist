@@ -32,27 +32,27 @@ export default async function HomePage() {
   const sections = [
     {
       title: "About",
-      text: "प्रोफेसर उत्तमा दीक्षित की शैक्षणिक यात्रा और उपलब्धियाँ",
+      text: "Academic journey and achievements of Professor Uttama Dixit",
       link: "/about"
     },
     {
       title: "Experience",
-      text: "शिक्षण और शोध में विशाल अनुभव का विवरण",
+      text: "Details of extensive experience in teaching and research",
       link: "/experience"
     },
     {
       title: "Research",
-      text: "शोध कार्य, प्रकाशन और योगदान की जानकारी",
+      text: "Information on research work, publications and contributions",
       link: "/research"
     },
     {
       title: "Administrative Roles",
-      text: "विभिन्न प्रशासनिक पदों पर किए गए कार्य",
+      text: "Work done in various administrative positions",
       link: "/administrative-roles"
     },
     {
       title: "Research Scholars",
-      text: "शोधार्थियों का मार्गदर्शन और उनकी उपलब्धियाँ",
+      text: "Guidance of research scholars and their achievements",
       link: "/research-scholars"
     }
   ];
