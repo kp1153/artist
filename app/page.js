@@ -18,7 +18,7 @@ export const metadata = {
 
 export default async function HomePage() {
   const posts = await client.fetch(
-    `*[_type == "artwork"] | order(_createdAt desc)[0...12]{
+    `*[_type == "artwork" && defined(category)] | order(_createdAt desc)[0...12]{
       slug,
       title,
       category,
@@ -61,7 +61,6 @@ export default async function HomePage() {
     <div className="min-h-screen">
       <HeroSlider />
 
-      {/* 5 Cards Section */}
       <section className="bg-gradient-to-br from-teal-50 to-amber-50 py-12">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -83,7 +82,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Artworks Gallery */}
       <div className="bg-gradient-to-br from-amber-50 to-rose-50">
         <section className="max-w-7xl mx-auto px-4 py-10">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
